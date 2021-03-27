@@ -1,6 +1,6 @@
 import os, sys
 import zipfile
-import proxies
+import proxy
 from selenium.webdriver import ChromeOptions, Chrome, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -33,20 +33,20 @@ def get_chromedriver(use_proxy=False, user_agent=None):
     if use_proxy:
         plugin_file = 'proxy_auth_plugin.zip'
         with zipfile.ZipFile(plugin_file, 'w') as zp:
-            zp.writestr("manifest.json", proxies.manifest_json)
-            zp.writestr("background.js", proxies.background_js)
+            zp.writestr("manifest.json", proxy.manifest_json)
+            zp.writestr("background.js", proxy.combine_background_js())
 
         chrome_options.add_extension(plugin_file)
 
     if user_agent:
         chrome_options.add_argument('--user-agent=%s' % user_agent)
 
-    driver = Chrome(executable_path=driver_path, chrome_options=chrome_options)
+    driver = Chrome(executable_path=driver_path, options=chrome_options)
     return driver
 
 
 def open_drivers():
-    driver = get_chromedriver(use_proxy=False)
+    driver = get_chromedriver(use_proxy=True)
     driver.get(product_url)
 
 

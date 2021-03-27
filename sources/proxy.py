@@ -1,8 +1,4 @@
-PROXY_HOST = '192.168.3.2'  # rotating proxy or host
-PROXY_PORT = 8080 # port
-PROXY_USER = 'proxy-user' # username
-PROXY_PASS = 'proxy-password' # password
-
+import random
 
 manifest_json = """
 {
@@ -54,4 +50,20 @@ chrome.webRequest.onAuthRequired.addListener(
             {urls: ["<all_urls>"]},
             ['blocking']
 );
-""" % (PROXY_HOST, PROXY_PORT, PROXY_USER, PROXY_PASS)
+"""
+
+
+def get_random_proxy():
+    proxies = open('proxies.txt').read().splitlines()
+    proxy = random.choice(proxies).split(':')
+
+    host = proxy[0]
+    port = int(proxy[1])
+    user = proxy[2]
+    password = proxy[3]
+
+    return host, port, user, password
+
+
+def combine_background_js():
+    return background_js % (get_random_proxy())

@@ -2,3 +2,9 @@
 .idea/
 
 venv_new/
+
+sources/proxies.txt
+
+sources/__pycache__/
+
+sources/proxy_auth_plugin.zip
