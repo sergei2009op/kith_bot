@@ -10,3 +10,5 @@ sources/__pycache__/
 sources/Selenium_1/proxy_auth_ext.zip
 
 sources/Selenium_2/proxy_auth_ext.zip
+
+sources/tasks.csv
