@@ -28,7 +28,7 @@ var config = {
         singleProxy: {
             scheme: "http",
             host: "%s",
-            port: parseInt( % s)
+            port: parseInt(%s)
         },
         bypassList: ["localhost"]
     }
@@ -54,9 +54,10 @@ chrome.webRequest.onAuthRequired.addListener(
 def get_random_proxy():
     proxies = open('proxies.txt').read().splitlines()
     proxy = random.choice(proxies).split(':')
+    print(proxy)
 
     host = proxy[0]
-    port = int(proxy[1])
+    port = proxy[1]
     user = proxy[2]
     password = proxy[3]
 
@@ -64,4 +65,4 @@ def get_random_proxy():
 
 
 def combine_background_js():
-    return background_js % (get_random_proxy())
+    return background_js % get_random_proxy()
