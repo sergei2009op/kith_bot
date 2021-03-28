@@ -52,10 +52,10 @@ chrome.webRequest.onAuthRequired.addListener(
 
 
 def get_random_proxy():
-    proxies = open('proxies.txt').read().splitlines()
-    proxy = random.choice(proxies).split(':')
-    print(proxy)
+    with open('proxies.txt') as file:
+        proxies = file.read().splitlines()
 
+    proxy = random.choice(proxies).split(':')
     host = proxy[0]
     port = proxy[1]
     user = proxy[2]
