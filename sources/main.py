@@ -1,6 +1,6 @@
-import os, sys, time
-import zipfile
+import os, sys, zipfile
 import proxy
+from xpaths import xpaths
 from selenium.webdriver import ChromeOptions, Chrome, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -21,8 +21,8 @@ window_size = '700,700'
 driver_path = resource_path('chromedriver_89')
 
 
-def create_proxy_ext(file_name):
-    with zipfile.ZipFile(file_name, 'w') as zp:
+def create_proxy_ext(ext_dir):
+    with zipfile.ZipFile(ext_dir, 'w') as zp:
         zp.writestr("manifest.json", proxy.manifest_json)
         zp.writestr("background.js", proxy.combine_background_js())
 
@@ -30,14 +30,17 @@ def create_proxy_ext(file_name):
 def get_chromedriver(dir_num, use_proxy=False, user_agent=None):
     chrome_options = ChromeOptions()
     chrome_options.add_argument(f'window-size={window_size}')
-    chrome_options.add_argument(f'user-data-dir=Selenium_{dir_num}')
+
+    user_data_dir = f'Selenium_{dir_num}'
+    chrome_options.add_argument(f'user-data-dir={user_data_dir}')
     chrome_options.add_argument(f'profile-directory=Profile 1')
     chrome_options.add_experimental_option('detach', True)
 
     if use_proxy:
-        ext_file = f'proxy_auth_ext_{dir_num}.zip'
-        create_proxy_ext(ext_file)
-        chrome_options.add_extension(ext_file)
+        ext_file = 'proxy_auth_ext.zip'
+        ext_dir = user_data_dir + '/' + ext_file
+        create_proxy_ext(ext_dir)
+        chrome_options.add_extension(ext_dir)
 
     if user_agent:
         chrome_options.add_argument(f'--user-agent={user_agent}')
@@ -47,9 +50,28 @@ def get_chromedriver(dir_num, use_proxy=False, user_agent=None):
 
 
 def open_drivers(dir_num):
-    product_url = 'https://kith.com/account'
     driver = get_chromedriver(dir_num, use_proxy=True)
-    driver.get(product_url)
+    open_login_page(driver)
+
+
+def fill_form_with_chars(form, string):
+    form.click()
+    form.clear()
+    form.send_keys([chars for chars in string])
+
+
+def open_login_page(driver):
+    login_url = 'https://eu.kith.com/account'
+    driver.get(login_url)
+
+    email = driver.find_element_by_id('CustomerEmail')
+    password = driver.find_element_by_id('CustomerPassword')
+
+    fill_form_with_chars(email, 'aaaa@mail.ru')
+    fill_form_with_chars(password, 'aaaaaaa')
+
+    button = driver.find_element_by_xpath(xpaths['login_button'])
+    button.click()
 
 
 Parallel(n_jobs=-1)(delayed(open_drivers)(i) for i in range(1, 3))

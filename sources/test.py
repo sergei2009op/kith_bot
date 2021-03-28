@@ -18,7 +18,7 @@ def resource_path(relative_path):
 
 
 window_size = '700,700'
-driver_path = resource_path('chromedriver')
+driver_path = resource_path('chromedriver_89')
 
 
 def create_proxy_ext(file_name):

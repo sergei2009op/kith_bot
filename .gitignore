@@ -7,4 +7,6 @@ sources/proxies.txt
 
 sources/__pycache__/
 
-sources/proxy_auth_plugin.zip
+sources/Selenium_1/proxy_auth_ext.zip
+
+sources/Selenium_2/proxy_auth_ext.zip
