@@ -1,18 +1,27 @@
-[11176:3228:0328/131717.758:ERROR:cache_util_win.cc(20)] Unable to move the cache: Отказано в доступе. (0x5)
-[11176:3228:0328/131717.844:ERROR:cache_util.cc(144)] Unable to move cache folder C:\dev\github projects\kith_bot\sources\Selenium\ShaderCache\GPUCache to C:\dev\github projects\kith_bot\sources\Selenium\ShaderCache\old_GPUCache_000
-[11176:3228:0328/131718.088:ERROR:disk_cache.cc(184)] Unable to create cache
-[11176:3228:0328/131718.316:ERROR:shader_disk_cache.cc(606)] Shader Cache Creation failed: -2
-[11340:8680:0328/131723.299:ERROR:device_event_log_impl.cc(214)] [13:17:23.299] USB: usb_device_handle_win.cc:1056 Failed to read descriptor from node connection: Присоединенное к системе устройство не работает. (0x1F)
-[11340:8680:0328/131723.319:ERROR:device_event_log_impl.cc(214)] [13:17:23.319] Bluetooth: bluetooth_adapter_winrt.cc:1072 Getting Default Adapter failed.
-[11340:8680:0328/131728.410:INFO:CONSOLE(0)] "[DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o", source: https://kith.com/account/login?return_url=%2Faccount (0)
-[11340:8680:0328/131728.463:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[11340:8680:0328/131728.465:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[11340:8680:0328/131728.666:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[11340:8680:0328/131728.666:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[11340:8680:0328/131728.666:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[11340:8680:0328/131728.667:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[11340:8680:0328/131728.777:INFO:CONSOLE(1)] "gdpr with an in-house jquery", source: https://gdprcdn.b-cdn.net/js/gdpr_cookie_consent.min.js?shop=kithnyc.myshopify.com (1)
-[11340:8680:0328/131729.233:INFO:CONSOLE(1)] "[bugsnag] Loaded!", source: https://load.csell.co/assets/v2/js/core/xsell.js?shop=kithnyc.myshopify.com (1)
-[11340:8680:0328/131731.251:INFO:CONSOLE(1)] "timeout [object Object]", source: https://load.csell.co/assets/v2/js/core/xsell.js?shop=kithnyc.myshopify.com (1)
-[11340:8680:0328/131733.671:INFO:CONSOLE(1)] "[object Arguments]", source: https://load.csell.co/assets/v2/js/core/xsell.js?shop=kithnyc.myshopify.com (1)
-[11340:8680:0328/131807.786:WARNING:pref_notifier_impl.cc(40)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+[30650:775:0328/134556.001290:ERROR:process_singleton_posix.cc(281)] Failed to create /Users/whiskeybob/Desktop/kith_project/kith_bot/sources/Selenium/SingletonLock: File exists (17)
+[30670:13059:0328/134559.832220:ERROR:simple_version_upgrade.cc(165)] Disk cache backend fake index file has wrong magic number.
+[30670:13059:0328/134559.839184:ERROR:simple_backend_impl.cc(757)] Simple Cache Backend: wrong file structure on disk: 3 path: /Users/whiskeybob/Desktop/kith_project/kith_bot/sources/Selenium/Profile 2/Cache
+[30670:13059:0328/134559.841497:ERROR:simple_version_upgrade.cc(165)] Disk cache backend fake index file has wrong magic number.
+[30670:13059:0328/134559.848380:ERROR:simple_backend_impl.cc(757)] Simple Cache Backend: wrong file structure on disk: 3 path: /Users/whiskeybob/Desktop/kith_project/kith_bot/sources/Selenium/Profile 1/Cache
+[30669:775:0328/134600.284918:WARNING:ipc_message_attachment_set.cc(49)] MessageAttachmentSet destroyed with unconsumed attachments: 0/1
+[30693:61699:0328/134601.309917:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 104 to 127
+[30693:61699:0328/134601.310045:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 106 to 125
+[30693:61699:0328/134601.310095:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 110 to 124
+[30693:61699:0328/134601.310130:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 112 to 123
+[30693:61699:0328/134601.310172:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 102 to 122
+[30693:61699:0328/134601.310212:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 112 to 121
+[30693:61699:0328/134601.310314:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 103 to 120
+[30693:61699:0328/134601.310379:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 105 to 119
+[30693:61699:0328/134601.310472:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 111 to 118
+[30693:61699:0328/134601.310531:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 113 to 117
+[30700:28419:0328/134609.295796:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 104 to 127
+[30700:28419:0328/134609.295889:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 106 to 125
+[30700:28419:0328/134609.295920:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 110 to 124
+[30700:28419:0328/134609.295939:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 112 to 123
+[30700:28419:0328/134609.295963:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 102 to 122
+[30700:28419:0328/134609.295985:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 112 to 121
+[30700:28419:0328/134609.296045:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 103 to 120
+[30700:28419:0328/134609.296078:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 105 to 119
+[30700:28419:0328/134609.296129:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 111 to 118
+[30700:28419:0328/134609.296163:WARNING:used_ids.h(55)] Duplicate id found. Reassigning from 113 to 117
+[30670:16131:0328/134635.839455:WARNING:sqlite_persistent_store_backend_base.cc(171)] Failed to post task from FlushAndNotifyInBackground@../../net/extras/sqlite/sqlite_persistent_store_backend_base.cc:220 to client_task_runner_.

@@ -18,7 +18,6 @@ def resource_path(relative_path):
 
 
 window_size = '700,700'
-user_data_folder = resource_path('Selenium')
 driver_path = resource_path('chromedriver_89')
 
 
@@ -28,15 +27,15 @@ def create_proxy_ext(file_name):
         zp.writestr("background.js", proxy.combine_background_js())
 
 
-def get_chromedriver(profile_num, use_proxy=False, user_agent=None):
+def get_chromedriver(dir_num, use_proxy=False, user_agent=None):
     chrome_options = ChromeOptions()
     chrome_options.add_argument(f'window-size={window_size}')
-    chrome_options.add_argument(f'user-data-dir={user_data_folder}')
-    chrome_options.add_argument(f'profile-directory=Profile {profile_num}')
+    chrome_options.add_argument(f'user-data-dir=Selenium_{dir_num}')
+    chrome_options.add_argument(f'profile-directory=Profile 1')
     chrome_options.add_experimental_option('detach', True)
 
     if use_proxy:
-        ext_file = f'proxy_auth_ext_{profile_num}.zip'
+        ext_file = f'proxy_auth_ext_{dir_num}.zip'
         create_proxy_ext(ext_file)
         chrome_options.add_extension(ext_file)
 
@@ -47,9 +46,9 @@ def get_chromedriver(profile_num, use_proxy=False, user_agent=None):
     return driver
 
 
-def open_drivers(profile_num):
+def open_drivers(dir_num):
     product_url = 'https://kith.com/account'
-    driver = get_chromedriver(profile_num, use_proxy=True)
+    driver = get_chromedriver(dir_num, use_proxy=True)
     driver.get(product_url)
 
 
