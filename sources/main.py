@@ -7,14 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from joblib import Parallel, delayed
 
-product_url = 'https://kith.com/account'
 
-window_size = '700,700'
-chrome_options = ChromeOptions()
-# chrome_options.add_argument('headless')
-chrome_options.add_argument('ignore-certificate-errors')
-chrome_options.add_argument(f'window-size={window_size}')
-chrome_options.add_experimental_option('detach', True)
+product_url = 'https://kith.com/account'
 
 
 def resource_path(relative_path):
@@ -26,21 +20,27 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path).replace('\\', '/')
 
 
-driver_path = resource_path('chromedriver_89')
+def create_proxy_ext(file_name):
+    with zipfile.ZipFile(file_name, 'w') as zp:
+        zp.writestr("manifest.json", proxy.manifest_json)
+        zp.writestr("background.js", proxy.combine_background_js())
 
 
 def get_chromedriver(use_proxy=False, user_agent=None):
-    if use_proxy:
-        plugin_file = 'proxy_auth_plugin.zip'
-        with zipfile.ZipFile(plugin_file, 'w') as zp:
-            zp.writestr("manifest.json", proxy.manifest_json)
-            zp.writestr("background.js", proxy.combine_background_js())
+    chrome_options = ChromeOptions()
+    window_size = '700,700'
+    chrome_options.add_argument(f'window-size={window_size}')
+    chrome_options.add_experimental_option('detach', True)
 
-        chrome_options.add_extension(plugin_file)
+    if use_proxy:
+        ext_file = 'proxy_auth_ext.zip'
+        create_proxy_ext(ext_file)
+        chrome_options.add_extension(ext_file)
 
     if user_agent:
-        chrome_options.add_argument('--user-agent=%s' % user_agent)
+        chrome_options.add_argument(f'--user-agent={user_agent}')
 
+    driver_path = resource_path('chromedriver_89')
     driver = Chrome(executable_path=driver_path, options=chrome_options)
     return driver
 
