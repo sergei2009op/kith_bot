@@ -1,14 +1,24 @@
-[8252:7288:0328/192519.987:ERROR:entry_impl.cc(1075)] No file for 80000004
-[8252:7288:0328/192520.054:ERROR:entry_impl.cc(1267)] Failed to delete C:\dev\github projects\kith_bot\sources\Selenium_1\GrShaderCache\GPUCache\f_000004 from the cache.
-[8252:2588:0328/192523.867:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[8252:2588:0328/192523.867:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[8252:2588:0328/192523.867:INFO:CONSOLE(841)] "not in the EU", source: https://cdn.shopify.com/s/files/1/0274/7469/0125/t/31/assets/theme.js?v=5106155832527921794 (841)
-[8252:2588:0328/192523.870:ERROR:device_event_log_impl.cc(214)] [19:25:23.871] USB: usb_device_handle_win.cc:1056 Failed to read descriptor from node connection: ѕрисоединенное к системе устройство не работает. (0x1F)
-[8252:2588:0328/192523.894:ERROR:device_event_log_impl.cc(214)] [19:25:23.895] Bluetooth: bluetooth_adapter_winrt.cc:1072 Getting Default Adapter failed.
-[8252:2588:0328/192524.150:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[8252:2588:0328/192524.153:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[8252:2588:0328/192524.153:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[8252:2588:0328/192524.155:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[8252:2588:0328/192524.966:INFO:CONSOLE(22)] "ShowFreeShippingBanner : Container Id : GlobaleFreeShippingBannerContainer not found in DOM", source: https://webservices.global-e.com/merchant/freeShippingBanner?merchantId=708&country=RU&currency=RUB&culture=ru&cb=1616948725 (22)
-[8252:2588:0328/192529.162:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
-[8252:2588:0328/192539.391:WARNING:pref_notifier_impl.cc(40)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+[37993:775:0331/160400.457082:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
+[37993:775:0331/160400.465950:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
+[37993:775:0331/160400.528939:INFO:CONSOLE(841)] "not in the EU", source: https://cdn.shopify.com/s/files/1/0274/7469/0125/t/31/assets/theme.js?v=5106155832527921794 (841)
+[37993:775:0331/160400.696385:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
+[37993:775:0331/160400.698040:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
+[37993:775:0331/160400.700462:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
+[37993:775:0331/160400.700606:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
+[37993:775:0331/160402.279231:INFO:CONSOLE(22)] "ShowFreeShippingBanner : Container Id : GlobaleFreeShippingBannerContainer not found in DOM", source: https://webservices.global-e.com/merchant/freeShippingBanner?merchantId=708&country=RU&currency=RUB&culture=ru&cb=1617195842 (22)
+[37993:775:0331/160404.906059:INFO:CONSOLE(13)] "JQMIGRATE: Logging is active", source: https://fs708.global-e.com/mappedBundles/checkoutv2_top.js?v=20210330065216 (13)
+[37993:775:0331/160405.236406:INFO:CONSOLE(21)] "GALogger.GAWrite: DefaultPaymentMethod Visa 1", source: https://fs708.global-e.com/mappedBundles/checkoutv2_top.js?v=20210330065216 (21)
+[37993:775:0331/160405.259878:INFO:CONSOLE(13)] "JQMIGRATE: jQuery.fn.andSelf() replaced by jQuery.fn.addBack()", source: https://fs708.global-e.com/mappedBundles/checkoutv2_top.js?v=20210330065216 (13)
+[37993:775:0331/160405.260004:INFO:CONSOLE(13)] "console.trace", source: https://fs708.global-e.com/mappedBundles/checkoutv2_top.js?v=20210330065216 (13)
+[37993:775:0331/160405.288089:INFO:CONSOLE(537)] "location succes", source: https://fs708.global-e.com/Checkout/v2/58512cde-2a13-4036-9179-437942cd9e2e?gaSesID=318511471.124815566.708&chkcuid=72b51335-1db6-4310-bffa-ecd5404cf34a&isNECAllowed=true&_vwo_store=&vph=577&ift=100 (537)
+[37993:775:0331/160405.288230:INFO:CONSOLE(537)] "Working", source: https://fs708.global-e.com/Checkout/v2/58512cde-2a13-4036-9179-437942cd9e2e?gaSesID=318511471.124815566.708&chkcuid=72b51335-1db6-4310-bffa-ecd5404cf34a&isNECAllowed=true&_vwo_store=&vph=577&ift=100 (537)
+[37993:775:0331/160405.572215:INFO:CONSOLE(21)] "GALogger.GAWrite: ShippingMethodSelected def-ship-opt-1-3333 RUB 934", source: https://fs708.global-e.com/mappedBundles/checkoutv2_top.js?v=20210330065216 (21)
+[37993:775:0331/160405.579491:INFO:CONSOLE(11)] "Run Get Tax Options", source: https://fs708.global-e.com/mappedbundles/checkoutv2_bottom.js?v=20210330065216 (11)
+[37993:775:0331/160405.700943:INFO:CONSOLE(40)] "[object Arguments]", source: https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js (40)
+[37993:775:0331/160406.740879:INFO:CONSOLE(21)] "GALogger.GAWrite: TaxBox Selected 1", source: https://fs708.global-e.com/mappedBundles/checkoutv2_top.js?v=20210330065216 (21)
+[37993:775:0331/160406.747623:INFO:CONSOLE(12)] "Render tax options, IsAvalaraSalesTaxLoaded set to: false", source: https://fs708.global-e.com/mappedbundles/checkoutv2_bottom.js?v=20210330065216 (12)
+[37993:775:0331/160406.942789:INFO:CONSOLE(21)] "GALogger.GAWrite: dutyThresholdType UnderThreshold ", source: https://fs708.global-e.com/mappedBundles/checkoutv2_top.js?v=20210330065216 (21)
+[37993:36611:0331/160417.632867:WARNING:gpu_process_host.cc(1282)] The GPU process has crashed 1 time(s)
+[37993:775:0331/160417.702535:ERROR:network_service_instance_impl.cc(286)] Network service crashed, restarting service.
+[37993:775:0331/160417.923722:WARNING:sad_tab.cc(295)] Tab Killed: https://eu.kith.com/
+[37993:775:0331/160418.512168:WARNING:pref_notifier_impl.cc(40)] Pref observer for media_router.cast_allow_all_ips found at shutdown.

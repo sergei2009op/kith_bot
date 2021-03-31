@@ -6,7 +6,7 @@ xpaths = {
     'add_to_cart': '/html/body/div[2]/main/div[2]/section/div[2]/form/button',
     'name': '/html/body/div[2]/div[2]/form[1]/div[1]/div[1]/div/div[2]/div[2]/div/input',
     'surname': '/html/body/div[2]/div[2]/form[1]/div[1]/div[1]/div/div[2]/div[3]/div/input',
-    'email': '/html/body/div[2]/div[2]/form[1]/div[1]/div[1]/div/div[2]/div[4]/div/input',
+    'email_cart': '/html/body/div[2]/div[2]/form[1]/div[1]/div[1]/div/div[2]/div[4]/div/input',
     'country': '/html/body/div[2]/div[2]/form[1]/div[1]/div[1]/div/div[2]/div[5]/div/select',
     'address_line1': '/html/body/div[2]/div[2]/form[1]/div[1]/div[1]/div/div[2]/div[6]/div/input',
     'address_line2': '/html/body/div[2]/div[2]/form[1]/div[1]/div[1]/div/div[2]/div[7]/div/input',
