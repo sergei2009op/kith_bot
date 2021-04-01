@@ -1,10 +1,10 @@
-import os, sys, zipfile, csv
+import os, sys, zipfile, csv, time, random
 import proxy
 from xpaths import xpaths
 from selenium.webdriver import ChromeOptions, Chrome, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait, Select
 from joblib import Parallel, delayed
 
 
@@ -17,6 +17,8 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path).replace('\\', '/')
 
 
+product_url = 'https://eu.kith.com/collections/mens-footwear-sneakers/products/cn165627c'
+sizes = ['5', '6', '10', '11', '11.5']
 tasks = []
 with open(resource_path('tasks.csv'), 'r', encoding='utf-8') as file:
     reader = csv.DictReader(file)
@@ -55,9 +57,14 @@ def get_chromedriver(task_num, use_proxy=False, user_agent=None):
     return driver
 
 
-def open_drivers(task_num):
+def run_task(task_num):
     driver = get_chromedriver(task_num, use_proxy=True)
-    open_login_page(task_num, driver)
+    # open_login_page(driver)
+    # autologin(task_num, driver)
+    open_product_page(driver)
+    add_to_cart(driver)
+    open_cart(driver)
+    autofill(driver)
 
 
 def fill_form_with_chars(form, string):
@@ -66,10 +73,14 @@ def fill_form_with_chars(form, string):
     form.send_keys(string)
 
 
-def open_login_page(task_num, driver):
+def open_login_page(driver):
     login_url = 'https://eu.kith.com/account'
     driver.get(login_url)
+    time.sleep(1)
+    driver.get(login_url)
 
+
+def autologin(task_num, driver):
     try:
         email = driver.find_element_by_id('CustomerEmail')
         password = driver.find_element_by_id('CustomerPassword')
@@ -83,4 +94,52 @@ def open_login_page(task_num, driver):
         print('Logged in')
 
 
-Parallel(n_jobs=-1)(delayed(open_drivers)(i) for i in range(1, 3))
+def open_product_page(driver):
+    driver.get(product_url)
+    choose_size(driver)
+
+
+def choose_size(driver):
+    is_size_found = False
+    while not is_size_found:
+        value = random.choice(sizes)
+        try:
+            select_from_combobox(driver, xpaths['sizes_box'], value)
+            is_size_found = True
+        except:
+            sizes.remove(value)
+            print('Size not found')
+
+
+def select_from_combobox(driver, combobox, value):
+    Select(driver.find_element_by_xpath(combobox)).select_by_value(value)
+
+
+def add_to_cart(driver):
+    button = driver.find_element_by_xpath(xpaths['add_to_cart'])
+    button.click()
+
+
+def open_cart(driver):
+    cart_url = 'https://eu.kith.com/pages/international-checkout#Global-e_International_Checkout'
+    driver.get(cart_url)
+
+
+def autofill(driver):
+    WebDriverWait(driver, 180).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, xpaths['address_frame'])))
+
+    while True:
+        try:
+            fill_form_with_chars(driver.find_element_by_xpath(xpaths['first_name']), 'Pipi')
+            break
+        except:
+            print('Waiting...')
+
+        time.sleep(0.5)
+
+    fill_form_with_chars(driver.find_element_by_xpath(xpaths['last_name']), 'Pupu')
+    select_from_combobox(driver, xpaths['country_box'], '159')
+    fill_form_with_chars(driver.find_element_by_xpath(xpaths['address_line1']), 'Red Square')
+
+
+Parallel(n_jobs=-1)(delayed(run_task)(i) for i in range(1, 3))
