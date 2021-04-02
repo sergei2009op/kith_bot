@@ -67,12 +67,6 @@ def run_task(task_num):
     autofill(driver)
 
 
-def fill_form_with_chars(form, string):
-    form.click()
-    form.clear()
-    form.send_keys(string)
-
-
 def open_login_page(driver):
     login_url = 'https://eu.kith.com/account'
     driver.get(login_url)
@@ -85,8 +79,8 @@ def autologin(task_num, driver):
         email = driver.find_element_by_id('CustomerEmail')
         password = driver.find_element_by_id('CustomerPassword')
 
-        fill_form_with_chars(email, tasks[task_num]['email'])
-        fill_form_with_chars(password, tasks[task_num]['password'])
+        email.send_keys(tasks[task_num]['email'])
+        password.send_keys(tasks[task_num]['password'])
 
         button = driver.find_element_by_xpath(xpaths['login_button'])
         button.click()
@@ -130,16 +124,38 @@ def autofill(driver):
 
     while True:
         try:
-            fill_form_with_chars(driver.find_element_by_xpath(xpaths['first_name']), 'Pipi')
+            driver.find_element_by_xpath(xpaths['first_name']).send_keys('Pipi')
             break
         except:
             print('Waiting...')
 
         time.sleep(0.5)
 
-    fill_form_with_chars(driver.find_element_by_xpath(xpaths['last_name']), 'Pupu')
+    driver.find_element_by_xpath(xpaths['last_name']).send_keys('Pupu')
+    driver.find_element_by_xpath(xpaths['email_cart']).send_keys('poopy@pip.com')
     select_from_combobox(driver, xpaths['country_box'], '159')
-    fill_form_with_chars(driver.find_element_by_xpath(xpaths['address_line1']), 'Red Square')
+    driver.find_element_by_xpath(xpaths['address_line1']).send_keys('Red Square')
+    driver.find_element_by_xpath(xpaths['address_line2']).send_keys('Saint Basil\'s Cathedral')
+    driver.find_element_by_xpath(xpaths['city']).send_keys('Moscow')
+    driver.find_element_by_xpath(xpaths['postcode']).send_keys('123123')
+    driver.find_element_by_xpath(xpaths['mobile']).send_keys('88005553535')
+    driver.find_element_by_xpath(xpaths['add_alt_address']).click()
+    driver.find_element_by_xpath(xpaths['alt_first_name']).send_keys('Pipi')
+    driver.find_element_by_xpath(xpaths['alt_last_name']).send_keys('Pupu')
+    select_from_combobox(driver, xpaths['alt_country_box'], '159')
+    driver.find_element_by_xpath(xpaths['alt_address_line1']).send_keys('Red Square')
+    driver.find_element_by_xpath(xpaths['alt_address_line2']).send_keys('Saint Basil\'s Cathedral')
+    driver.find_element_by_xpath(xpaths['alt_city']).send_keys('Moscow')
+    driver.find_element_by_xpath(xpaths['alt_postcode']).send_keys('123123')
+    driver.find_element_by_xpath(xpaths['alt_mobile']).send_keys('88005553535')
+
+    WebDriverWait(driver, 180).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, xpaths['payment_frame'])))
+
+    driver.find_element_by_xpath(xpaths['card_number']).send_keys('4276434365658787')
+    driver.find_element_by_xpath(xpaths['exp_month']).send_keys('11')
+    driver.find_element_by_xpath(xpaths['exp_year']).send_keys('22')
+    driver.find_element_by_xpath(xpaths['cvv']).send_keys('621')
+    # driver.find_element_by_xpath(xpaths['order_button']).click()
 
 
-Parallel(n_jobs=-1)(delayed(run_task)(i) for i in range(1, 3))
+Parallel(n_jobs=-1)(delayed(run_task)(i) for i in range(1, 2))
