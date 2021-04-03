@@ -1,7 +1,7 @@
 import os, sys, zipfile, csv, time
 import random
 import proxy
-from xpaths import xpaths
+from selectors import xpaths
 from selenium.webdriver import ChromeOptions, Chrome, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
