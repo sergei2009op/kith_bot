@@ -1,6 +1,6 @@
 import os, sys, zipfile, csv, time, random
 import proxy
-from selectors import selectors
+from select_path import select_paths
 from selenium.webdriver import ChromeOptions, Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -22,6 +22,7 @@ is_any_size = False
 product_url = 'https://eu.kith.com/products/cn165523c'
 sizes = ['5', '6', '7', '10', '11', '11.5']
 tasks = []
+autofill_data = []
 
 
 def read_tasks():
@@ -29,6 +30,14 @@ def read_tasks():
         reader = csv.DictReader(file)
         for task in reader:
             tasks.append(task)
+
+
+def read_autofill_data(user_num):
+    with open(resource_path('autofill.csv'), 'r', encoding='utf-8') as file:
+        reader = csv.DictReader(file, delimiter=',')
+        for i, row in enumerate(reader):
+            if i == user_num-1:
+                autofill_data.append(row)
 
 
 def run_task(task_num):
@@ -44,11 +53,13 @@ def run_task(task_num):
         if is_any_size:
             get_sizes(driver)
 
+        read_autofill_data(task_num)
+
         choose_size(driver)
         add_to_cart(driver)
         open_cart(driver)
         wait_for_the_end_of_queue(driver)
-        autofill(driver)
+        autofill(driver, task_num)
 
 
 def get_chromedriver(task_num, use_proxy=False):
@@ -65,7 +76,7 @@ def get_chromedriver(task_num, use_proxy=False):
         create_proxy_ext(ext_file)
         chrome_options.add_extension(ext_file)
 
-    driver_path = resource_path('chromedriver_89')
+    driver_path = resource_path('chromedriver')
     driver = Chrome(executable_path=driver_path, options=chrome_options)
     return driver
 
@@ -95,9 +106,9 @@ def fill_form(form, string):
 
 def autologin(task_num, driver):
     try:
-        find_element(driver, selectors['email']).send_keys(tasks[task_num]['email'])
-        find_element(driver, selectors['password']).send_keys(tasks[task_num]['password'])
-        find_element(driver, selectors['login_button']).click()
+        find_element(driver, select_paths['email']).send_keys(tasks[task_num]['email'])
+        find_element(driver, select_paths['password']).send_keys(tasks[task_num]['password'])
+        find_element(driver, select_paths['login_button']).click()
     except:
         print('Logged in')
 
@@ -109,14 +120,14 @@ def open_product_page(driver):
 def wait_for_product(driver):
     try:
         wait = WebDriverWait(driver, 0.6)
-        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, selectors['sizes_box'])))
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, select_paths['sizes_box'])))
     except:
         driver.refresh()
         wait_for_product(driver)
 
 
 def get_sizes(driver):
-    combobox = find_element(driver, selectors['sizes_box'])
+    combobox = find_element(driver, select_paths['sizes_box'])
     select = Select(combobox)
     sizes.clear()
     for option in select.options:
@@ -127,7 +138,7 @@ def get_sizes(driver):
 def choose_size(driver):
     value = random.choice(sizes)
     try:
-        select_from_combobox(driver, selectors['sizes_box'], value)
+        select_from_combobox(driver, select_paths['sizes_box'], value)
     except:
         print(f'Size {value} not found')
         sizes.remove(value)
@@ -140,7 +151,7 @@ def select_from_combobox(driver, combobox_selector, value):
 
 
 def add_to_cart(driver):
-    find_element(driver, selectors['add_to_cart_button']).click()
+    find_element(driver, select_paths['add_to_cart_button']).click()
 
 
 def open_cart(driver):
@@ -150,10 +161,10 @@ def open_cart(driver):
 
 def wait_for_the_end_of_queue(driver):
     wait = WebDriverWait(driver, 300)
-    wait.until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, selectors['address_frame'])))
+    wait.until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, select_paths['address_frame'])))
     while True:
         try:
-            find_element(driver, selectors['add_alt_address']).click()
+            find_element(driver, select_paths['add_alt_address']).click()
             break
         except:
             print('Waiting...')
@@ -161,36 +172,38 @@ def wait_for_the_end_of_queue(driver):
         time.sleep(0.1)
 
 
-def autofill(driver):
-    fill_form(find_element(driver, selectors['first_name']), 'Pipi')
-    fill_form(find_element(driver, selectors['last_name']), 'Pupu')
-    fill_form(find_element(driver, selectors['email_cart']), 'poopy@pip.com')
-    select_from_combobox(driver, selectors['country_box'], '159')
-    fill_form(find_element(driver, selectors['address_line1']), 'Red Square')
-    fill_form(find_element(driver, selectors['address_line2']), 'Saint Basil\'s Cathedral')
-    fill_form(find_element(driver, selectors['city']), 'Moscow')
-    fill_form(find_element(driver, selectors['postcode']), '123123')
-    fill_form(find_element(driver, selectors['mobile']), '88005553535')
+# noinspection PyTypeChecker
+def autofill(driver, task_num):
+    fill_form(find_element(driver, select_paths['first_name']), autofill_data[task_num-1]['first_name'])
+    fill_form(find_element(driver, select_paths['last_name']), autofill_data[task_num-1]['last_name'])
+    fill_form(find_element(driver, select_paths['email_cart']), autofill_data[task_num-1]['email_cart'])
+    select_from_combobox(driver, select_paths['country_box'], autofill_data[task_num-1]['country_box'])
+    fill_form(find_element(driver, select_paths['address_line1']), autofill_data[task_num-1]['address_line1'])
+    fill_form(find_element(driver, select_paths['address_line2']), autofill_data[task_num-1]['address_line2'])
+    fill_form(find_element(driver, select_paths['city']), autofill_data[task_num-1]['city'])
+    fill_form(find_element(driver, select_paths['postcode']), autofill_data[task_num-1]['postcode'])
+    fill_form(find_element(driver, select_paths['mobile']), autofill_data[task_num-1]['mobile'])
 
-    fill_form(find_element(driver, selectors['alt_first_name']), 'Pipi')
-    fill_form(find_element(driver, selectors['alt_last_name']), 'Pupu')
-    select_from_combobox(driver, selectors['alt_country_box'], '159')
-    find_element(driver, selectors['alt_address_line1']).send_keys('Red Square')
-    find_element(driver, selectors['alt_address_line2']).send_keys('Saint Basil\'s Cathedral')
-    find_element(driver, selectors['alt_city']).send_keys('Moscow')
-    find_element(driver, selectors['alt_postcode']).send_keys('123123')
-    find_element(driver, selectors['alt_mobile']).send_keys('88005553535')
+    fill_form(find_element(driver, select_paths['alt_first_name']), autofill_data[task_num-1]['alt_first_name'])
+    fill_form(find_element(driver, select_paths['alt_last_name']), autofill_data[task_num-1]['alt_last_name'])
+    select_from_combobox(driver, select_paths['alt_country_box'], autofill_data[task_num-1]['alt_country_box'])
+    find_element(driver, select_paths['alt_address_line1']).send_keys(autofill_data[task_num-1]['alt_address_line1'])
+    find_element(driver, select_paths['alt_address_line2']).send_keys(autofill_data[task_num-1]['alt_address_line2'])
+    find_element(driver, select_paths['alt_city']).send_keys(autofill_data[task_num-1]['alt_city'])
+    find_element(driver, select_paths['alt_postcode']).send_keys(autofill_data[task_num-1]['alt_postcode'])
+    find_element(driver, select_paths['alt_mobile']).send_keys(autofill_data[task_num-1]['alt_mobile'])
 
-    payment_frame = find_element(driver, selectors['payment_frame'])
+    payment_frame = find_element(driver, select_paths['payment_frame'])
     driver.switch_to.frame(payment_frame)
 
-    find_element(driver, selectors['card_number']).send_keys('4276434365658787')
-    find_element(driver, selectors['exp_month']).send_keys('11')
-    find_element(driver, selectors['exp_year']).send_keys('22')
-    find_element(driver, selectors['cvv']).send_keys('621')
+    find_element(driver, select_paths['card_number']).send_keys(autofill_data[task_num-1]['card_number'])
+    find_element(driver, select_paths['exp_month']).send_keys(autofill_data[task_num-1]['exp_month'])
+    find_element(driver, select_paths['exp_year']).send_keys(autofill_data[task_num-1]['exp_year'])
+    find_element(driver, select_paths['cvv']).send_keys(autofill_data[task_num-1]['cvv'])
 
-    # find_element(driver, selectors['order_button']).click()
+    # find_element(driver, select_paths['order_button']).click()
 
 
 read_tasks()
+
 Parallel(n_jobs=-1)(delayed(run_task)(i) for i in range(1, 3))

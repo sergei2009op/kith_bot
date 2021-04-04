@@ -1,4 +1,4 @@
-selectors = {
+select_paths = {
     'email': '#CustomerEmail',
     'password': '#CustomerPassword',
     'login_button': '#customer_login > div > input',
