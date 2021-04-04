@@ -1,4 +1,4 @@
-select_paths = {
+paths = {
     'email': '#CustomerEmail',
     'password': '#CustomerPassword',
     'login_button': '#customer_login > div > input',
@@ -14,7 +14,8 @@ select_paths = {
     'city': '#BillingCity',
     'postcode': '#BillingZIP',
     'mobile': '#CheckoutData_BillingPhone',
-    'add_alt_address': '#newShipping',
+    'use_def_address': '#shippingDefault',
+    'use_alt_address': '#newShipping',
     'alt_first_name': '#CheckoutData_ShippingFirstName',
     'alt_last_name': '#CheckoutData_ShippingLastName',
     'alt_country_box': '#ShippingCountryID',
