@@ -1,11 +1,21 @@
-import os, sys, zipfile, csv, time, random
 import proxy
 from paths import paths
+import os, sys, subprocess, platform
+import zipfile, csv, time, random
+import requests
 from selenium.webdriver import ChromeOptions, Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from joblib import Parallel, delayed
+
+
+is_first_run = False
+is_any_size = False
+region = ''
+product_url = 'https://kith.com/products/aagw0265'
+sizes = ['5', '6', '7', '10', '11', '11.5']
+tasks = []
 
 
 def resource_path(relative_path):
@@ -17,12 +27,45 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path).replace('\\', '/')
 
 
-is_first_run = False
-is_any_size = False
-region = 'eu.'
-product_url = 'https://kith.com/products/cn170683c'
-sizes = ['5', '6', '7', '10', '11', '11.5']
-tasks = []
+def login():
+    username = input('Username: ')
+    key = input('Key: ')
+    login_data = {'username': username, 'key': key, 'pc_id': get_uuid()}
+    post_data(login_data)
+
+
+def get_uuid():
+    if platform.system() == 'Darwin':
+        cmd = "system_profiler SPHardwareDataType | grep 'Serial Number' | awk '{print $4}'"
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, shell=True, check=True)
+        return result.stdout.strip().decode()
+    else:
+        return subprocess.check_output('wmic csproduct get UUID').decode().split()[1]
+
+
+def post_data(data):
+    try:
+        response = requests.post('https://hermesbotserver.herokuapp.com/send_token', json=data)
+        check_response(response)
+    except:
+        print('Server unavailable')
+
+
+def check_response(response):
+    if response.status_code == 200:
+        print('Logged in successfully')
+        read_tasks()
+        Parallel(n_jobs=-1)(delayed(run_task)(i) for i in range(0, 1))
+    elif response.status_code == 400:
+        print('Request error')
+    elif response.status_code == 401:
+        print('Wrong password')
+    elif response.status_code == 403:
+        print('You can use Hermes Bot only on one PC. Contact support')
+    elif response.status_code == 404:
+        print('Username not found')
+    else:
+        print('Unknown error')
 
 
 def read_tasks():
@@ -207,5 +250,4 @@ def autofill_card(driver, num):
     find_element(driver, paths['cvv']).send_keys(tasks[num]['cvv'])
 
 
-read_tasks()
-Parallel(n_jobs=-1)(delayed(run_task)(i) for i in range(0, 1))
+login()
