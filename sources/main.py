@@ -10,7 +10,8 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from joblib import Parallel, delayed
 
 
-is_first_run = False
+is_login_needed = False
+is_link_from_monitor = False
 is_any_size = False
 region = ''
 product_url = 'https://kith.com/products/aagw0265'
@@ -27,9 +28,26 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path).replace('\\', '/')
 
 
+def init():
+    global is_login_needed, is_link_from_monitor, is_any_size, region
+    is_login_needed = bool(int(input('Do you need to log in? [1 for yes / 0 for no]: ')))
+    is_link_from_monitor = bool(int(input('Do you want to open product manually? [1 for yes / 0 for no]: ')))
+    is_any_size = bool(int(input('Do you want to choose any available size? [1 for yes / 0 for no]: ')))
+    region = input('Enter region? ["eu" for eu / ENTER for us]: ')
+
+
 def login():
-    username = input('Username: ')
-    key = input('Key: ')
+    if os.path.exists(resource_path('settings.txt')):
+        with open(resource_path('settings.txt'), 'r', encoding='utf-8') as f:
+            content = f.readlines()
+            username = content[0]
+            key = content[1]
+    else:
+        with open(resource_path('settings.txt'), 'w', encoding='utf-8') as f:
+            username = input('Username: ')
+            key = input('Key: ')
+            f.writelines("\n".join([username, key]))
+
     login_data = {'username': username, 'key': key, 'pc_id': get_uuid()}
     post_data(login_data)
 
@@ -69,20 +87,24 @@ def check_response(response):
 
 
 def read_tasks():
-    with open(resource_path('tasks.csv'), 'r', encoding='utf-8') as file:
-        reader = csv.DictReader(file, delimiter=',')
+    with open(resource_path('tasks.csv'), 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f, delimiter=',')
         for task in reader:
             tasks.append(task)
 
 
 def run_task(task_num):
-    if is_first_run:
-        driver = get_chromedriver(task_num, True)
+    driver = get_chromedriver(task_num)
+
+    if is_login_needed:
         open_login_page(driver)
         autologin(driver, task_num)
     else:
-        driver = get_chromedriver(task_num, True)
-        open_product_page(driver)
+        if is_link_from_monitor:
+            wait_for_link(driver)
+        else:
+            open_product_page(driver)
+
         wait_for_product(driver)
 
         if is_any_size:
@@ -95,7 +117,7 @@ def run_task(task_num):
         place_order(driver, task_num)
 
 
-def get_chromedriver(task_num, use_proxy=False):
+def get_chromedriver(task_num):
     chrome_options = ChromeOptions()
     window_size = '700,700'
     chrome_options.add_argument(f'window-size={window_size}')
@@ -104,10 +126,9 @@ def get_chromedriver(task_num, use_proxy=False):
     chrome_options.add_argument(f'profile-directory=Profile')
     chrome_options.add_experimental_option('detach', True)
 
-    if use_proxy:
-        ext_file = f'chrome/proxy_ext_{task_num}.zip'
-        create_proxy_ext(ext_file)
-        chrome_options.add_extension(ext_file)
+    ext_file = f'chrome/proxy_ext_{task_num}.zip'
+    create_proxy_ext(ext_file)
+    chrome_options.add_extension(ext_file)
 
     driver_path = resource_path('chrome/chromedriver_89')
     driver = Chrome(executable_path=driver_path, options=chrome_options)
@@ -148,6 +169,10 @@ def autologin(driver, num):
 
 def open_product_page(driver):
     driver.get(product_url)
+
+
+def wait_for_link(driver):
+    WebDriverWait(driver, 300).until(EC.url_contains('kith.com/products/'))
 
 
 def wait_for_product(driver):
@@ -250,4 +275,5 @@ def autofill_card(driver, num):
     find_element(driver, paths['cvv']).send_keys(tasks[num]['cvv'])
 
 
+init()
 login()

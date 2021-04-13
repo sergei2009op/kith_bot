@@ -52,8 +52,8 @@ chrome.webRequest.onAuthRequired.addListener(
 
 
 def get_random_proxy():
-    with open('proxies.txt') as file:
-        proxies = file.read().splitlines()
+    with open('proxies.txt') as f:
+        proxies = f.read().splitlines()
 
     proxy = random.choice(proxies).split(':')
     host = proxy[0]
