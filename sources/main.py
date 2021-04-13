@@ -31,8 +31,9 @@ def resource_path(relative_path):
 def init():
     global is_login_needed, is_link_from_monitor, is_any_size, region
     is_login_needed = bool(int(input('Do you need to log in? [1 for yes / 0 for no]: ')))
-    is_link_from_monitor = bool(int(input('Do you want to open product manually? [1 for yes / 0 for no]: ')))
-    is_any_size = bool(int(input('Do you want to choose any available size? [1 for yes / 0 for no]: ')))
+    if not is_login_needed:
+        is_link_from_monitor = bool(int(input('Do you want to open product manually? [1 for yes / 0 for no]: ')))
+        is_any_size = bool(int(input('Do you want to choose any available size? [1 for yes / 0 for no]: ')))
     region = input('Enter region? ["eu" for eu / ENTER for us]: ')
 
 
@@ -130,7 +131,7 @@ def get_chromedriver(task_num):
     create_proxy_ext(ext_file)
     chrome_options.add_extension(ext_file)
 
-    driver_path = resource_path('chrome/chromedriver_89')
+    driver_path = resource_path('chrome/chromedriver')
     driver = Chrome(executable_path=driver_path, options=chrome_options)
     return driver
 
