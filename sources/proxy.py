@@ -51,8 +51,8 @@ chrome.webRequest.onAuthRequired.addListener(
 '''
 
 
-def get_random_proxy():
-    with open('proxies.txt') as f:
+def get_random_proxy(file):
+    with open(file) as f:
         proxies = f.read().splitlines()
 
     proxy = random.choice(proxies).split(':')
@@ -64,5 +64,5 @@ def get_random_proxy():
     return host, port, user, password
 
 
-def combine_background_js():
-    return background_js % get_random_proxy()
+def combine_background_js(file_path):
+    return background_js % get_random_proxy(file_path)

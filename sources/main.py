@@ -10,10 +10,13 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from joblib import Parallel, delayed
 
 
-is_login_needed = False
-is_link_from_monitor = False
-is_any_size = False
-region = ''
+is_login_needed = bool(int(input('Do you need to log in? [1 for yes / 0 for no]: ')))
+if not is_login_needed:
+    is_link_from_monitor = bool(int(input('Do you want to open product manually? [1 for yes / 0 for no]: ')))
+    is_any_size = bool(int(input('Do you want to choose any available size? [1 for yes / 0 for no]: ')))
+region = input('Enter region? ["eu" for eu / ENTER for us]: ')
+
+
 product_url = 'https://kith.com/products/aagw0265'
 sizes = ['5', '6', '7', '10', '11', '11.5']
 tasks = []
@@ -26,15 +29,6 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path).replace('\\', '/')
-
-
-def init():
-    global is_login_needed, is_link_from_monitor, is_any_size, region
-    is_login_needed = bool(int(input('Do you need to log in? [1 for yes / 0 for no]: ')))
-    if not is_login_needed:
-        is_link_from_monitor = bool(int(input('Do you want to open product manually? [1 for yes / 0 for no]: ')))
-        is_any_size = bool(int(input('Do you want to choose any available size? [1 for yes / 0 for no]: ')))
-    region = input('Enter region? ["eu" for eu / ENTER for us]: ')
 
 
 def login():
@@ -74,7 +68,7 @@ def check_response(response):
     if response.status_code == 200:
         print('Logged in successfully')
         read_tasks()
-        Parallel(n_jobs=-1)(delayed(run_task)(i) for i in range(0, 1))
+        Parallel(n_jobs=-1)(delayed(run_tasks)(i) for i in range(0, 1))
     elif response.status_code == 400:
         print('Request error')
     elif response.status_code == 401:
@@ -94,7 +88,7 @@ def read_tasks():
             tasks.append(task)
 
 
-def run_task(task_num):
+def run_tasks(task_num):
     driver = get_chromedriver(task_num)
 
     if is_login_needed:
@@ -122,24 +116,25 @@ def get_chromedriver(task_num):
     chrome_options = ChromeOptions()
     window_size = '700,700'
     chrome_options.add_argument(f'window-size={window_size}')
-    user_data_dir = f'chrome/Selenium_{task_num}'
+    user_data_dir = resource_path(f'chrome/Selenium_{task_num}')
     chrome_options.add_argument(f'user-data-dir={user_data_dir}')
     chrome_options.add_argument(f'profile-directory=Profile')
     chrome_options.add_experimental_option('detach', True)
 
-    ext_file = f'chrome/proxy_ext_{task_num}.zip'
+    ext_file = resource_path(f'chrome/proxy_ext_{task_num}.zip')
     create_proxy_ext(ext_file)
     chrome_options.add_extension(ext_file)
 
-    driver_path = resource_path('chrome/chromedriver')
+    driver_path = resource_path('chrome/chromedriver_89')
     driver = Chrome(executable_path=driver_path, options=chrome_options)
     return driver
 
 
 def create_proxy_ext(ext_dir):
+    proxy_file = resource_path('proxies.txt')
     with zipfile.ZipFile(ext_dir, 'w') as zp:
         zp.writestr("manifest.json", proxy.manifest_json)
-        zp.writestr("background.js", proxy.combine_background_js())
+        zp.writestr("background.js", proxy.combine_background_js(proxy_file))
 
 
 def open_login_page(driver):
@@ -276,5 +271,13 @@ def autofill_card(driver, num):
     find_element(driver, paths['cvv']).send_keys(tasks[num]['cvv'])
 
 
-init()
 login()
+
+
+# Windows
+# pyinstaller -D -c --add-data "chrome/chromedriver_89.exe;chrome" -i "icons\icon.ico" -n "kith_bot" main.py
+# C:\Users\macbook\AppData\Local\Temp
+
+# Mac
+# pyinstaller -w --add-data "chromedriver:." --add-data "icons/icon.PNG:icons" --add-data "fonts:fonts" -i "icons/icon.icns" -n "hermes_bot" mainwindow.py
+# codesign -f -s "Certificate" /Users/macbook/Desktop/snkrs_bot/Sources/dist/hermes_bot.app --deep
