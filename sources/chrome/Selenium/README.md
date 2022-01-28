@@ -1,0 +1,1 @@
+**This folder is used to store Google Chrome profiles data**
