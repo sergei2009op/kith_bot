@@ -1,0 +1,6 @@
+Region? [eu / us]: us
+Log in into accounts? [YES = 1 / NO = 0]: 0
+Open product manually? [YES = 1 / NO = 0]: 0
+Choose any available size? [YES = 1 / NO = 0]: 1
+Product ID: rkgw8323
+Sizes: 3, 4, 12.5

@@ -1,0 +1,2 @@
+email,password,first_name,last_name,email_cart,country,address_line1,address_line2,city,postcode,mobile,card_number,exp_month,exp_year,cvv
+foobar@gmail.com,foobar,Foo,Bar,foobar@gmail.com,Russia,Foobar street,10,Foobar,1112,1314151617,1819202122232425,01,2030,405
