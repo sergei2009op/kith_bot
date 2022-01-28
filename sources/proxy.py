@@ -1,3 +1,4 @@
+import file_handling as fh
 import random
 
 manifest_json = '''
@@ -52,8 +53,7 @@ chrome.webRequest.onAuthRequired.addListener(
 
 
 def get_random_proxy(file):
-    with open(file) as f:
-        proxies = f.read().splitlines()
+    proxies = fh.read_file(file)
 
     proxy = random.choice(proxies).split(':')
     host = proxy[0]

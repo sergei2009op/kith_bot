@@ -2,7 +2,8 @@ paths = {
     'email': '#CustomerEmail',
     'password': '#CustomerPassword',
     'login_button': '#customer_login > div > input',
-    'sizes_box': '#SingleOptionSelector-0',
+    'sizes_box_1': '#SingleOptionSelector-0',
+    'sizes_box_2': '#shopify-section-product > section > div.product__shop > form > div > ul',
     'add_to_cart_button': '#shopify-section-product > section > div.product__shop > form > button',
     'address_frame': '#Intrnl_CO_Container',
     'first_name': '#CheckoutData_BillingFirstName',
@@ -29,5 +30,6 @@ paths = {
     'exp_month': '#cardExpiryMonth',
     'exp_year': '#cardExpiryYear',
     'cvv': '#cvdNumber',
-    'order_button': '#btnPay'
+    'order_button': '#btnPay',
+    'confirm_button': '#addwrap > div:nth-child(2) > div.col-md-3.col-xs-12.text-right.avpbtnwrap > button'
 }
